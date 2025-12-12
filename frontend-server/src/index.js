@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { ThemeProvider } from "./context/ThemeContext.jsx";
-import { AuthProvider } from "./context/AuthContext.jsx";
+import { ThemeProvider } from "./contexts/ThemeContext.jsx";
+import { AuthProvider } from "./contexts/AuthContext.jsx";
 import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
