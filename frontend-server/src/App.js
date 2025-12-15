@@ -23,6 +23,7 @@ const App = () => {
         <Link to="/" style={{ fontWeight: "bold", fontSize: "20px" }}>
           InstaClone
         </Link>
+{user && <Link to="/search">Search</Link>}
 
         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
           <button onClick={toggleTheme}>
