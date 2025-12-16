@@ -3,7 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import followRoutes from "./routes/followRoute.js";
 import postRoutes from "./routes/postRoute.js";
-import userRoutes from "./routes/userRoutes.js";
+import userRoutes from "./routes/userRoute.js";
+import likeRoutes from "./routes/likeRoute.js";
+import commentRoutes from "./routes/commentRoute.js";
 dotenv.config();
 import authRoutes from "./routes/authRoute.js";
 
@@ -21,6 +23,10 @@ app.use("/api/posts", postRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/follow", followRoutes);
 
+app.use("/api/likes", likeRoutes);
+
+
+app.use("/api/comments", commentRoutes);
 
 app.use("/api/users", userRoutes);
 

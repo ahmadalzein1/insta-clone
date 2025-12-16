@@ -5,6 +5,8 @@ import { useAuth } from "./contexts/AuthContext.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import FeedPage from "./pages/FeedPage.jsx";
+import SearchPage from "./pages/SearchPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
 
 const App = () => {
   const { theme, toggleTheme } = useTheme();
@@ -25,6 +27,7 @@ const App = () => {
         </Link>
 {user && <Link to="/search">Search</Link>}
 
+  {user && <Link to={"/profile/"+user.id} >Profile</Link>}
         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
           <button onClick={toggleTheme}>
             {theme === "light" ? "Dark 🌙" : "Light ☀️"}
@@ -54,6 +57,19 @@ const App = () => {
             path="/login"
             element={!user ? <LoginPage /> : <Navigate to="/" replace />}
           />
+          
+
+                    <Route
+            path="/search"
+            element={user ? <SearchPage /> : <Navigate to="/login" replace />}
+          />
+
+                    <Route
+            path="/profile/:id"
+            element={user ? <ProfilePage /> : <Navigate to="/login" replace />}
+          />
+
+
           <Route
             path="/register"
             element={!user ? <RegisterPage /> : <Navigate to="/" replace />}

@@ -41,17 +41,36 @@ export const getFeed = async (req, res) => {
   try {
     const result = await pool.query(
       `
-SELECT posts.*, users.username, users.avatar
-FROM posts
-JOIN users ON users.id = posts.user_id
-WHERE posts.user_id = $1
-   OR posts.user_id IN (
-     SELECT following_id
-     FROM follows
-     WHERE follower_id = $1
-   )
-ORDER BY posts.created_at DESC;
-
+      SELECT
+        posts.*,
+        users.username,
+        users.avatar,
+        (
+          SELECT COUNT(*)
+          FROM likes
+          WHERE likes.post_id = posts.id
+        ) AS likes_count,
+(
+  SELECT COUNT(*)
+  FROM comments
+  WHERE comments.post_id = posts.id
+) AS comments_count
+,
+        EXISTS (
+          SELECT 1
+          FROM likes
+          WHERE likes.post_id = posts.id
+            AND likes.user_id = $1
+        ) AS liked_by_me
+      FROM posts
+      JOIN users ON users.id = posts.user_id
+      WHERE posts.user_id = $1
+         OR posts.user_id IN (
+           SELECT following_id
+           FROM follows
+           WHERE follower_id = $1
+         )
+      ORDER BY posts.created_at DESC
       `,
       [userId]
     );
@@ -62,3 +81,4 @@ ORDER BY posts.created_at DESC;
     res.status(500).json({ message: "Server error" });
   }
 };
+

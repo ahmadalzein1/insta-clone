@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CreatePost from "../components/CreatePost.jsx";
+import LikeButton from "../components/LikeButton.jsx";
+import Comments from "../components/Comments.jsx";
 
 const API = "http://localhost:5000"; // used only for image URLs
 
@@ -53,6 +55,21 @@ export default function FeedPage() {
           />
 
           {post.caption && <p style={{ marginBottom: 0 }}>{post.caption}</p>}
+          <LikeButton
+  postId={post.id}
+  liked={post.liked_by_me}
+  count={post.likes_count}
+  onChange={loadFeed}
+/>
+ 
+<button style={{ background: "none", border: "none" }}>
+  💬 {post.comments_count}
+</button>
+
+<Comments postId={post.id}  onChange={loadFeed} />
+
+
+
         </div>
       ))}
     </div>

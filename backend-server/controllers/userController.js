@@ -59,6 +59,25 @@ export const getUserProfile = async (req, res) => {
       [profileId]
     );
 
+
+
+    const statsRes = await pool.query(
+      `
+      SELECT
+        (SELECT COUNT(*) FROM posts WHERE user_id = $1) AS posts_count,
+        (SELECT COUNT(*) FROM follows WHERE following_id = $1) AS followers_count,
+        (SELECT COUNT(*) FROM follows WHERE follower_id = $1) AS following_count
+      `,
+      [profileId]
+    );
+
+
+
+
+
+
+
+
     const followRes = await pool.query(
       `
       SELECT 1
@@ -71,6 +90,7 @@ export const getUserProfile = async (req, res) => {
     res.json({
       user: userRes.rows[0],
       posts: postsRes.rows,
+      stats: statsRes.rows[0],
       isFollowing: followRes.rows.length > 0,
     });
   } catch (err) {
@@ -78,3 +98,7 @@ export const getUserProfile = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+
+
+

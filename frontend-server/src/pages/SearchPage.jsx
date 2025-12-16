@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -15,9 +15,10 @@ export default function SearchPage() {
     }
 try
     {const res = await axios.get(`/api/users/search?q=${value}`);
+    setUsers(res.data);
 }catch(e){console.log(e)}
 
-    setUsers(res.data);
+    
   };
 
   return (
