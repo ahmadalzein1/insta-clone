@@ -2,7 +2,7 @@ import express from "express";
 import { protect } from "../middlewares/authMiddleware.js";
 import { searchUsers, getUserProfile } from "../controllers/userController.js";
 import { updateAvatar } from "../controllers/avatarController.js";
-import { upload } from "../middleware/upload.js";
+import { upload } from "../middlewares/uploadMiddleware.js";
 
 
 
