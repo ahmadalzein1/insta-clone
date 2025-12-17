@@ -26,6 +26,51 @@ export default function FeedPage() {
     loadFeed();
   }, []);
 
+
+
+
+
+
+
+
+  // 🔥 THIS is the optimistic + rollback handler
+  const toggleLikeOptimistic = async (post) => {
+    // 1️⃣ save old snapshot (for rollback)
+    const oldPost = { ...post };
+
+    // 2️⃣ optimistic update
+    setPosts((prev) =>
+      prev.map((p) =>
+        p.id === post.id
+          ? {
+              ...p,
+              liked_by_me: !p.liked_by_me,
+              likes_count:
+                Number(p.likes_count) + (p.liked_by_me ? -1 : 1),
+            }
+          : p
+      )
+    );
+
+    // 3️⃣ backend request
+    try {
+      if (post.liked_by_me) {
+        await axios.delete(`/api/likes/${post.id}`);
+      } else {
+        await axios.post(`/api/likes/${post.id}`);
+      }
+    } catch (err) {
+      console.error("Like failed, rolling back", err);
+
+      // 4️⃣ rollback if failed
+      setPosts((prev) =>
+        prev.map((p) => (p.id === post.id ? oldPost : p))
+      );
+    }
+  };
+
+
+  
   return (
     <div>
       <CreatePost onCreated={() => loadFeed()} />
@@ -46,8 +91,23 @@ export default function FeedPage() {
             borderRadius: 10,
           }}
         >
-          <strong>@{post.username}</strong>
+          <div style={{display:"flex"}}><strong>@{post.username}</strong>
+                    <img
+        src={
 
+            post.avatar?`${API}/uploads/${post.avatar}`
+            : "https://via.placeholder.com/120"
+        }
+        alt="avatar"
+        style={{
+          width: 30,
+          height: 30,
+          borderRadius: "50%",
+          objectFit: "cover",
+        
+          
+        }}
+      /></div>
           <img
             src={`${API}/${post.image}`}
             alt=""
@@ -56,17 +116,15 @@ export default function FeedPage() {
 
           {post.caption && <p style={{ marginBottom: 0 }}>{post.caption}</p>}
           <LikeButton
-  postId={post.id}
-  liked={post.liked_by_me}
-  count={post.likes_count}
-  onChange={loadFeed}
+post={post}
+onToggle={toggleLikeOptimistic}
 />
  
 <button style={{ background: "none", border: "none" }}>
   💬 {post.comments_count}
 </button>
 
-<Comments postId={post.id}  onChange={loadFeed} />
+<Comments postId={post.id}  />
 
 
 

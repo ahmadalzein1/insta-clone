@@ -36,6 +36,7 @@ const App = () => {
           {user ? (
             <>
               <span>@{user.username}</span>
+
               <button onClick={logout}>Logout</button>
             </>
           ) : (

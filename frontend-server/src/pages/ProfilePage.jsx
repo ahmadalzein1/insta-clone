@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext.jsx";
+import AvatarUploader from "../components/AvatarUploader.jsx";
 
 const API = "http://localhost:5000";
 
 export default function ProfilePage() {
   const { id } = useParams();
   const { user: me } = useAuth();
-
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -42,7 +42,25 @@ export default function ProfilePage() {
 
   return (
     <div>
-      <h2>@{user.username}</h2>
+      <h2 style={{display:"flex"}}>@{user.username}       {!isMe && (
+                    <img
+        src={
+
+            user.avatar?`${API}/uploads/${user.avatar}`
+            : "https://via.placeholder.com/120"
+        }
+        alt="avatar"
+        style={{
+          width: 30,
+          height: 30,
+          borderRadius: "50%",
+          objectFit: "cover",
+        
+           
+        }}
+      />
+)}</h2>
+
       {/* STATS */}
       <div style={{ display: "flex", gap: 20, marginBottom: 10 }}>
         <strong>{stats.posts_count} posts</strong>
@@ -55,6 +73,15 @@ export default function ProfilePage() {
           {isFollowing ? "Unfollow" : "Follow"}
         </button>
       )}
+
+{isMe && (
+  <AvatarUploader
+    currentAvatar={user.avatar}
+    onUpdated={loadProfile}
+  />
+)}
+
+
 
       <h3 style={{ marginTop: 20 }}>Posts</h3>
 

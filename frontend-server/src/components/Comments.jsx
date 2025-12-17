@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-export default function Comments({ postId,onChange }) {
+export default function Comments({ postId }) {
   const [comments, setComments] = useState([]);
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
