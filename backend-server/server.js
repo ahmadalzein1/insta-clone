@@ -8,7 +8,9 @@ import likeRoutes from "./routes/likeRoute.js";
 import commentRoutes from "./routes/commentRoute.js";
 dotenv.config();
 import authRoutes from "./routes/authRoute.js";
-
+// PORT=5000
+// JWT_SECRET=supersecretkey
+// DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres
 
 const app = express();
 
