@@ -120,11 +120,11 @@ post={post}
 onToggle={toggleLikeOptimistic}
 />
  
-<button style={{ background: "none", border: "none" }}>
-  💬 {post.comments_count}
-</button>
+<Comments
+  postId={post.id}
+  initialCount={post.comments_count}
+/>
 
-<Comments postId={post.id}  />
 
 
 

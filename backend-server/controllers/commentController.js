@@ -45,14 +45,24 @@ export const addComment = async (req, res) => {
   }
 
   try {
-    const result = await pool.query(
-      `
-      INSERT INTO comments (post_id, user_id, text)
-      VALUES ($1, $2, $3)
-      RETURNING *
-      `,
-      [postId, userId, text]
-    );
+    
+const result = await pool.query(
+  `
+  WITH inserted_comment AS (
+    INSERT INTO comments (post_id, user_id, text)
+    VALUES ($1, $2, $3)
+    RETURNING *
+  )
+  SELECT 
+    inserted_comment.*,
+    users.username,
+    users.avatar
+  FROM inserted_comment
+  JOIN users ON users.id = inserted_comment.user_id;
+  `,
+  [postId, userId, text]
+);
+
 
     res.status(201).json(result.rows[0]);
   } catch (err) {
