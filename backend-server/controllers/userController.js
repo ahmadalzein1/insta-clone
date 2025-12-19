@@ -26,7 +26,6 @@ export const searchUsers = async (req, res) => {
 };
 
 
-
 /**
  * GET USER PROFILE
  * GET /api/users/:id

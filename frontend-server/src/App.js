@@ -7,6 +7,7 @@ import RegisterPage from "./pages/RegisterPage.jsx";
 import FeedPage from "./pages/FeedPage.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
 
 const App = () => {
   const { theme, toggleTheme } = useTheme();
@@ -26,6 +27,7 @@ const App = () => {
           InstaClone
         </Link>
 {user && <Link to="/search">Search</Link>}
+{user?.role === "admin" && <Link to="/admin">Admin</Link>}
 
   {user && <Link to={"/profile/"+user.id} >Profile</Link>}
         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
@@ -75,6 +77,18 @@ const App = () => {
             path="/register"
             element={!user ? <RegisterPage /> : <Navigate to="/" replace />}
           />
+          <Route
+  path="/admin"
+  element={
+    user && user.role === "admin"
+      ? <AdminDashboard />
+      : <Navigate to="/" replace />
+  }
+/>
+
+
+
+
         </Routes>
       </main>
     </div>

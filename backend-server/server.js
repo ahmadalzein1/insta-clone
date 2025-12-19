@@ -6,6 +6,7 @@ import postRoutes from "./routes/postRoute.js";
 import userRoutes from "./routes/userRoute.js";
 import likeRoutes from "./routes/likeRoute.js";
 import commentRoutes from "./routes/commentRoute.js";
+import adminRoutes from "./routes/adminRoute.js";
 dotenv.config();
 import authRoutes from "./routes/authRoute.js";
 // PORT=5000
@@ -26,6 +27,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/follow", followRoutes);
 
 app.use("/api/likes", likeRoutes);
+
+app.use("/api/admin", adminRoutes);
 
 
 app.use("/api/comments", commentRoutes);
