@@ -8,6 +8,7 @@ import FeedPage from "./pages/FeedPage.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
+import ChatPage from "./pages/ChatPage.jsx";
 
 const App = () => {
   const { theme, toggleTheme } = useTheme();
@@ -28,6 +29,7 @@ const App = () => {
         </Link>
 {user && <Link to="/search">Search</Link>}
 {user?.role === "admin" && <Link to="/admin">Admin</Link>}
+{user && <Link to="/chat">Chat</Link>}
 
   {user && <Link to={"/profile/"+user.id} >Profile</Link>}
         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
@@ -71,6 +73,11 @@ const App = () => {
             path="/profile/:id"
             element={user ? <ProfilePage /> : <Navigate to="/login" replace />}
           />
+
+<Route
+  path="/chat"
+  element={user ? <ChatPage /> : <Navigate to="/login" replace />}
+/>
 
 
           <Route

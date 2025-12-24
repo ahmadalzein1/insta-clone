@@ -6,9 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import { ThemeProvider } from "./contexts/ThemeContext.jsx";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 import { BrowserRouter } from "react-router-dom";
+import { ToastProvider } from './contexts/ToastContext.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <ToastProvider>
     <ThemeProvider>
       <AuthProvider>
         <BrowserRouter>
@@ -16,6 +18,7 @@ root.render(
         </BrowserRouter>
       </AuthProvider>
     </ThemeProvider>
+    </ToastProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
