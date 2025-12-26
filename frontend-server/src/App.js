@@ -1,7 +1,11 @@
 import React from "react";
-import { Routes, Route, Navigate, Link } from "react-router-dom";
-import { useTheme } from "./contexts/ThemeContext.jsx";
-import { useAuth } from "./contexts/AuthContext.jsx";
+import { Routes, Route, Navigate } from "react-router-dom";
+
+import AppLayout from "./layouts/AppLayout.jsx";
+import RequireAuth from "./routes/RequireAuth.jsx";
+import GuestOnly from "./routes/GuestOnly.jsx";
+import RequireAdmin from "./routes/RequireAdmin.jsx";
+
 import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import FeedPage from "./pages/FeedPage.jsx";
@@ -9,97 +13,43 @@ import SearchPage from "./pages/SearchPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
+import VerifyEmailPage from "./pages/VerifyEmailPage.jsx";
+import CheckEmailPage from "./pages/CheckEmailPage.jsx";
 
-const App = () => {
-  const { theme, toggleTheme } = useTheme();
-  const { user, logout } = useAuth();
-
+export default function App() {
+ 
   return (
-    <div className={`app ${theme}`}>
-      <header
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          padding: "10px 20px",
-          borderBottom: "1px solid #e5e7eb",
-        }}
-      >
-        <Link to="/" style={{ fontWeight: "bold", fontSize: "20px" }}>
-          InstaClone
-        </Link>
-{user && <Link to="/search">Search</Link>}
-{user?.role === "admin" && <Link to="/admin">Admin</Link>}
-{user && <Link to="/chat">Chat</Link>}
+    <Routes>
+      {/* Layout always renders header */}
+      <Route element={<AppLayout />}>
+        {/* Guest routes */}
+        <Route element={<GuestOnly />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/verify-email" element={<VerifyEmailPage />} />
+           <Route path="/check-email" element={<CheckEmailPage />} />
+        </Route>
 
-  {user && <Link to={"/profile/"+user.id} >Profile</Link>}
-        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-          <button onClick={toggleTheme}>
-            {theme === "light" ? "Dark 🌙" : "Light ☀️"}
-          </button>
+        {/* Protected routes */}
+        <Route element={<RequireAuth />}>
+          <Route path="/" element={<FeedPage />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/profile/:id" element={<ProfilePage />} />
+          <Route path="/chat" element={<ChatPage />} />
 
-          {user ? (
-            <>
-              <span>@{user.username}</span>
-
-              <button onClick={logout}>Logout</button>
-            </>
-          ) : (
-            <>
-              <Link to="/login">Login</Link>
-              <Link to="/register">Register</Link>
-            </>
-          )}
-        </div>
-      </header>
-
-      <main style={{ maxWidth: "900px", margin: "20px auto" }}>
-        <Routes>
-          <Route
-            path="/"
-            element={user ? <FeedPage /> : <Navigate to="/login" replace />}
-          />
-          <Route
-            path="/login"
-            element={!user ? <LoginPage /> : <Navigate to="/" replace />}
-          />
-          
-
-                    <Route
-            path="/search"
-            element={user ? <SearchPage /> : <Navigate to="/login" replace />}
-          />
-
-                    <Route
-            path="/profile/:id"
-            element={user ? <ProfilePage /> : <Navigate to="/login" replace />}
-          />
-
-<Route
-  path="/chat"
-  element={user ? <ChatPage /> : <Navigate to="/login" replace />}
-/>
-
-
-          <Route
-            path="/register"
-            element={!user ? <RegisterPage /> : <Navigate to="/" replace />}
-          />
-          <Route
-  path="/admin"
-  element={
-    user && user.role === "admin"
-      ? <AdminDashboard />
-      : <Navigate to="/" replace />
-  }
-/>
+          <Route element={<RequireAdmin />}>
+            <Route path="/admin" element={<AdminDashboard />} />
+          </Route>
+        </Route>
 
 
 
 
-        </Routes>
-      </main>
-    </div>
+
+
+        {/* ✅ Not found => go to feed */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Route>
+    </Routes>
   );
-};
-
-export default App;
+}

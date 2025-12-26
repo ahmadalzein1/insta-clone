@@ -15,7 +15,9 @@ import { initSocket } from "./socket.js";
 // PORT=5000
 // JWT_SECRET=supersecretkey
 // DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres
-
+// EMAIL_USER=vivawallet@gmail.com
+// EMAIL_PASS=crxi lctp dbef xyfd
+//FRONTEND_URL=http://localhost:3000/
 const app = express();
 app.use(cors());
 app.use(express.json());
