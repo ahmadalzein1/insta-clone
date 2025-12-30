@@ -15,6 +15,8 @@ import AdminDashboard from "./pages/AdminDashboard.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
 import VerifyEmailPage from "./pages/VerifyEmailPage.jsx";
 import CheckEmailPage from "./pages/CheckEmailPage.jsx";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage.jsx";
+import ResetPasswordPage from "./pages/ResetPasswordPage.jsx";
 
 export default function App() {
  
@@ -28,6 +30,8 @@ export default function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/verify-email" element={<VerifyEmailPage />} />
            <Route path="/check-email" element={<CheckEmailPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
+             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         </Route>
 
         {/* Protected routes */}

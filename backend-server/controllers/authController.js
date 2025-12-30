@@ -104,16 +104,6 @@ export const login = async (req, res) => {
     const user = result.rows[0];
 
 
-if (!user.is_verified) {
-  return res
-    .status(403)
-    .json({ message: "Please verify your email first" });
-}
-
-
-
-
-
 
 
 
@@ -122,6 +112,13 @@ if (!user.is_verified) {
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
+
+    if (!user.is_verified) {
+  return res
+    .status(403)
+    .json({ message: "Please verify your email first" });
+}
+
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
@@ -249,6 +246,119 @@ export const resendVerification = async (req, res) => {
     });
 
     res.json({ message: "Verification email sent" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.json({ message: "If the email exists, a link was sent" });
+  }
+
+  try {
+    const userRes = await pool.query(
+      `SELECT id FROM users WHERE email = $1`,
+      [email]
+    );
+
+    if (userRes.rows.length === 0) {
+      // 🔒 Do not reveal existence
+      return res.json({ message: "If the email exists, a link was sent" });
+    }
+
+    const user = userRes.rows[0];
+
+    // 🔥 remove old reset tokens
+    await pool.query(
+      `DELETE FROM password_reset_tokens WHERE user_id = $1`,
+      [user.id]
+    );
+
+    // 🔐 generate token
+    const rawToken = crypto.randomBytes(32).toString("hex");
+    const tokenHash = crypto
+      .createHash("sha256")
+      .update(rawToken)
+      .digest("hex");
+
+    await pool.query(
+      `
+      INSERT INTO password_reset_tokens (user_id, token_hash, expires_at)
+      VALUES ($1, $2, NOW() + INTERVAL '1 hour')
+      `,
+      [user.id, tokenHash]
+    );
+
+    const resetUrl = `${process.env.FRONTEND_URL}reset-password?token=${rawToken}`;
+
+    await sendEmail({
+      to: email,
+      subject: "Reset your password",
+      html: `
+        <h2>Password reset</h2>
+        <p>Click the link below to reset your password:</p>
+        <a href="${resetUrl}">${resetUrl}</a>
+      `,
+    });
+
+    res.json({ message: "If the email exists, a link was sent" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+
+export const resetPassword = async (req, res) => {
+  const { token, password } = req.body;
+
+  if (!token || !password) {
+    return res.status(400).json({ message: "Invalid request" });
+  }
+
+  // hash incoming token
+  const tokenHash = crypto
+    .createHash("sha256")
+    .update(token)
+    .digest("hex");
+
+  try {
+    const result = await pool.query(
+      `
+      SELECT user_id
+      FROM password_reset_tokens
+      WHERE token_hash = $1
+        AND expires_at > NOW()
+      `,
+      [tokenHash]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(400).json({ message: "Token invalid or expired" });
+    }
+
+    const userId = result.rows[0].user_id;
+
+    // 🔐 hash new password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await pool.query(
+      `UPDATE users SET password = $1 WHERE id = $2`,
+      [hashedPassword, userId]
+    );
+
+    // 🔥 delete ALL reset tokens for user (one-time)
+    await pool.query(
+      `DELETE FROM password_reset_tokens WHERE user_id = $1`,
+      [userId]
+    );
+
+    res.json({ message: "Password reset successful" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });

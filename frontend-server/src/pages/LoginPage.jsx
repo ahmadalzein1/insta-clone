@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
- 
   const { login } = useAuth();
   const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate=useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,6 +50,7 @@ const LoginPage = () => {
         />
 
         <button type="submit">Login</button>
+        <button onClick={()=>{ navigate("/forgot-password", { replace: true });}}>forgot-password?</button>
       </form>
     </div>
   );

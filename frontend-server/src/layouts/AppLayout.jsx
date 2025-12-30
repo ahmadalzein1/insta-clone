@@ -1,10 +1,11 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext.jsx";
 import { useAuth } from "../contexts/AuthContext.jsx";
+import React from "react";
 
 
 export default function AppLayout() {
-  
+ 
   const { theme, toggleTheme } = useTheme();
   const { user, logout } = useAuth();
   const location = useLocation();
@@ -19,6 +20,7 @@ export default function AppLayout() {
 
   return (
     <div className={`app ${theme}`}>
+     
       {/* ✅ Header always */}
       <header
         style={{

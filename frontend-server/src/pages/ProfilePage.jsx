@@ -1,16 +1,41 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import AvatarUploader from "../components/AvatarUploader.jsx";
 
 const API = "http://localhost:5000";
 
 export default function ProfilePage() {
+  const navigate = useNavigate();
+
   const { id } = useParams();
   const { user: me } = useAuth();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
+
+
+
+const startConversation = async () => {
+  try {
+    const res = await axios.post(
+      "/api/chat/conversations/one",
+      { otherUserId: profile.user.id }
+    );
+
+    const conversationId = res.data.conversationId;
+
+    // navigate to chat and pass conversationId
+    navigate("/chat", {
+      state: { conversationId },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+
+
 
   const loadProfile = async () => {
     setLoading(true);
@@ -73,6 +98,16 @@ export default function ProfilePage() {
           {isFollowing ? "Unfollow" : "Follow"}
         </button>
       )}
+
+      {!isMe && (
+  <button
+    style={{ marginLeft: 10 }}
+    onClick={startConversation}
+  >
+    Message
+  </button>
+)}
+
 
 {isMe && (
   <AvatarUploader
