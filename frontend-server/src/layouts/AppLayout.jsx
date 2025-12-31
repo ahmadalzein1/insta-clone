@@ -1,11 +1,11 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext.jsx";
 import { useAuth } from "../contexts/AuthContext.jsx";
-import React from "react";
+import React, { useState } from "react";
 
 
 export default function AppLayout() {
- 
+ const [sidebarOpen, setSidebarOpen] = useState(true);
   const { theme, toggleTheme } = useTheme();
   const { user, logout } = useAuth();
   const location = useLocation();
@@ -34,6 +34,22 @@ export default function AppLayout() {
           background: "var(--bg, #fff)",
         }}
       >
+        
+        
+          {user && (
+    <button
+      onClick={() => setSidebarOpen((prev) => !prev)}
+      style={{
+        border: "1px solid #ddd",
+        borderRadius: 8,
+        padding: "4px 8px",
+        cursor: "pointer",
+      }}
+      title="Toggle sidebar"
+    >
+      {sidebarOpen ? "⬅️" : "➡️"}
+    </button>
+  )}
         <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
           <Link to="/" style={{ fontWeight: "bold", fontSize: 20 }}>
             InstaClone
@@ -63,24 +79,29 @@ export default function AppLayout() {
       {/* ✅ Body with optional sidebar */}
       <div style={{ display: "flex" }}>
         {user && (
-          <aside
-            style={{
-              width: 220,
-              padding: 14,
-              borderRight: "1px solid #e5e7eb",
-              height: "calc(100vh - 54px)",
-              position: "sticky",
-              top: 54,
-            }}
-          >
-            <nav style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <Link to="/">Feed</Link>
-              <Link to="/search">Search</Link>
-            
-              <Link to="/chat">Chat</Link>
-              <Link to={`/profile/${user.id}`}>Profile</Link>
-              {user.role === "admin" && <Link to="/admin">Admin</Link>}
-            </nav>
+<aside
+  style={{
+    width: sidebarOpen ? 220 : 64,
+    padding: sidebarOpen ? 14 : 8,
+    borderRight: "1px solid #e5e7eb",
+    height: "calc(100vh - 54px)",
+    position: "sticky",
+    top: 54,
+    transition: "width 0.25s ease",
+    overflow: "hidden",
+  }}
+>
+
+<nav style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+  <Link to="/">🏠 {sidebarOpen && "Feed"}</Link>
+  <Link to="/search">🔍 {sidebarOpen && "Search"}</Link>
+  <Link to="/chat">💬 {sidebarOpen && "Chat"}</Link>
+  <Link to={`/profile/${user.id}`}>👤 {sidebarOpen && "Profile"}</Link>
+  {user.role === "admin" && (
+    <Link to="/admin">🛠 {sidebarOpen && "Admin"}</Link>
+  )}
+</nav>
+
           </aside>
         )}
 
