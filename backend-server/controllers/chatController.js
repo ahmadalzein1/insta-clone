@@ -149,6 +149,12 @@ JOIN users u ON u.id = im.sender_id;
 
 const message = result.rows[0];
 
+
+
+
+
+
+
 // 🔥 emit to room
 const io = getIO();
 io.to(`conversation:${conversationId}`).emit("message:new", {
@@ -159,6 +165,54 @@ io.to(`conversation:${conversationId}`).emit("message:new", {
   created_at: message.created_at,
   username: req.user.username,
 });
+
+const membersRes = await pool.query(
+  `
+  SELECT user_id
+  FROM conversation_members
+  WHERE conversation_id = $1
+  `,
+  [conversationId]
+);
+const convoRes = await pool.query(
+  `
+  SELECT id, is_group, title
+  FROM conversations
+  WHERE id = $1
+  `,
+  [conversationId]
+);
+
+const conversation = convoRes.rows[0];
+
+
+membersRes.rows.forEach((member) => {
+  if (member.user_id === req.user.id) return; // ❌ skip sender
+
+  io.to(`user:${member.user_id}`).emit("notification:new", {
+    type: "message",
+        conversation: {
+      id: conversation.id,
+      is_group: conversation.is_group,
+      title: conversation.title,
+    },
+    sender: {
+      id: req.user.id,
+      username: req.user.username,
+      avatar: req.user.avatar,
+    },
+    text: message.text,
+  });
+});
+
+
+
+
+
+
+
+
+
 
 res.status(201).json(message);
   } catch (err) {

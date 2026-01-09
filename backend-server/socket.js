@@ -37,7 +37,8 @@ export const initSocket = (httpServer) => {
 
   io.on("connection", (socket) => {
     console.log("🟢 socket connected", socket.user.username);
-
+    const userId = socket.user.id;
+socket.join(`user:${userId}`);
     // join conversation rooms
     socket.on("join:conversation", (conversationId) => {
       socket.join(`conversation:${conversationId}`);

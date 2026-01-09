@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import MessageInput from "./MessageInput.jsx";
 import { useAuth } from "../../contexts/AuthContext.jsx";
-import { createSocket, disconnectSocket } from "../../socket.js";
+import { createSocket } from "../../socket.js";
 
 export default function ChatWindow({ conversation }) {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { user,token } = useAuth();
+  const { user } = useAuth();
 
   // ---------------------------
   // Load messages
@@ -23,15 +23,15 @@ export default function ChatWindow({ conversation }) {
   // ---------------------------
   // Socket lifecycle (AUTH)
   // ---------------------------
-  useEffect(() => {
-    if (!token) return;
+  // useEffect(() => {
+  //   if (!token) return;
 
-    createSocket(token);
+  //   createSocket(token);
 
-    return () => {
-      disconnectSocket();
-    };
-  }, [token]);
+  //   return () => {
+  //     disconnectSocket();
+  //   };
+  // }, [token]);
 
   // ---------------------------
   // Chat room lifecycle

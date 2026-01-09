@@ -3,6 +3,7 @@ import axios from "axios";
 import ChatWindow from "../components/Chats/ChatWindow.jsx";
 import ConversationList from "../components/Chats/ConversationList.jsx";
 import { useLocation } from "react-router-dom";
+import { chatActiveRef } from "../ChatActiveRev.js";
 
 
 
@@ -29,6 +30,15 @@ const initialConversationId = location.state?.conversationId;
   }
   
   };
+
+useEffect(() => {
+  chatActiveRef.currentConversationId =
+    activeConversation?.id || null;
+
+  return () => {
+    chatActiveRef.currentConversationId = null;
+  };
+}, [activeConversation?.id]);
 
   useEffect(() => {
     loadConversations();
