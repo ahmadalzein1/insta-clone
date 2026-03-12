@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* -------------------------------------
+   THE MASTER DESIGN SYSTEM
+   Every component should use these variables!
+---------------------------------------*/
+:root {
+    /* 1. Core Colors (Light) */
+    --bg-color: #f0f2f5;
+    /* Cool gray background */
+    --nav-bg: #ffffff;
+    /* Pure white floating surfaces */
+    --text-primary: #1a1a1a;
+    --text-secondary: #737373;
+    --border-color: #e5e5e5;
+
+    /* 2. Brand Accents (Your favorites!) */
+    --primary-button: #0095f6;
+    --primary-button-hover: #1877f2;
+    --danger: #ed4956;
+
+
+
+    /* 3. Typography Grid (Root 16px) */
+    --font-family: 'Inter', -apple-system, sans-serif;
+    --text-xs: 0.75rem;
+    /* 12px */
+    --text-sm: 0.875rem;
+    /* 14px */
+    --text-base: 1rem;
+    /* 16px */
+    --text-lg: 1.125rem;
+    /* 18px */
+    --text-xl: 1.5rem;
+    /* 24px */
+
+    /* 4. Spacing System (Use for padding/margins!) */
+    --space-xs: 0.25rem;
+    /* 4px */
+    --space-sm: 0.5rem;
+    /* 8px */
+    --space-md: 1rem;
+    /* 16px */
+    --space-lg: 1.5rem;
+    /* 24px */
+    --space-xl: 2rem;
+    /* 32px */
+
+    /* 5. Shapes & Elevation */
+    --radius-sm: 8px;
+    /* Buttons, Inputs */
+    --radius-lg: 16px;
+    /* Main Cards, Modals */
+    --radius-full: 9999px;
+    /* Avatars, Pills */
+    --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.04);
+    --shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+/* -------------------------------------
+   DARK MODE OVERRIDES
+---------------------------------------*/
+.dark {
+    --bg-color: #000000;
+    --nav-bg: #181a1b;
+    --text-primary: #f5f5f5;
+    --text-secondary: #a8a8a8;
+    --border-color: #2b2b2b;
+    --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.4);
+    --shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+/* -------------------------------------
+   GLOBAL RESETS
+---------------------------------------*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-family);
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+    /* Makes fonts look incredibly crisp */
+}
+
+/* -------------------------------------
+   GLOBAL UI COMPONENTS
+   (We write these once so we don't have to in the Modules!)
+---------------------------------------*/
+
+/* The Master Button Class */
+.global-btn {
+    background-color: var(--btn-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: var(--space-sm) var(--space-md);
+    font-weight: 600;
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+}
+
+.global-btn:hover {
+    background-color: var(--btn-primary-hover);
+
+}
+
+.global-btn:active {
+    transform: scale(0.96);
+    /* The signature tactile click */
+}
+
+.global-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* The Master Input Class */
+.global-input {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    width: 100%;
+    transition: border-color 0.2s ease;
+}
+
+.global-input:focus {
+    outline: none;
+    border-color: #a8a8a8;
+}

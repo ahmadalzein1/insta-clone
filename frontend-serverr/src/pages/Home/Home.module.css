@@ -1,0 +1,43 @@
+/* --- High-End Feed Layout --- */
+.feedContainer {
+    max-width: 470px;
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    /* Nice spacing between posts */
+}
+
+
+
+/* Utility stuff */
+.centered {
+    text-align: center;
+    margin-top: 5rem;
+    color: var(--text-secondary);
+}
+
+.centeredError {
+    text-align: center;
+    margin-top: 5rem;
+    color: var(--danger);
+    font-weight: 500;
+}
+
+.emptyFeed {
+    text-align: center;
+    padding: 4rem 2rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin: 0 16px;
+}
+
+.emptyFeed h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.emptyFeed p {
+    color: var(--text-secondary);
+}

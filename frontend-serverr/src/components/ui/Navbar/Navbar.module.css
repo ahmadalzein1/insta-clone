@@ -1,0 +1,146 @@
+.navbar {
+    background-color: var(--nav-bg);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    /* Keeps it at the top when you scroll the feed! */
+    top: 0;
+    z-index: 50;
+    /* Makes sure it stays above images */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    /* Tiny shadow for depth */
+}
+
+.navContent {
+    max-width: 975px;
+    /* Instagram's exact container width */
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    height: 60px;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.titleLink {
+    text-decoration: none;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.navLinks {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+.userSection {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.greeting {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.greeting strong {
+    color: var(--text-primary);
+}
+
+/* --- The Premium Icon Button (Theme Toggle) --- */
+.iconButton {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.iconButton:hover {
+    background-color: var(--bg-color);
+    /* Draws a subtle circle behind the icon on hover */
+}
+
+.iconButton:active {
+    transform: scale(0.9);
+}
+
+/* --- Message link with badge --- */
+.msgLink {
+    position: relative;
+}
+
+.badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 18px;
+    height: 18px;
+    background-color: var(--danger);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    line-height: 1;
+    border: 2px solid var(--nav-bg);
+    animation: badgePop 0.3s ease;
+}
+
+@keyframes badgePop {
+    0% { transform: scale(0); }
+    60% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+/* --- The Premium Logout Button --- */
+.logoutButton {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--radius-sm);
+    /* Using our Master System Variable! */
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.logoutButton:hover {
+    border-color: var(--danger);
+    /* Turns the border red! */
+    color: var(--danger);
+    /* Turns text & icon red! */
+    background-color: rgba(237, 73, 86, 0.05);
+    /* Super faint red background */
+}
+
+.logoutButton:active {
+    transform: scale(0.96);
+    /* Satisfying tactile click */
+}

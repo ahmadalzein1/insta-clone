@@ -15,7 +15,8 @@ export const getComments = async (req, res) => {
         comments.text,
         comments.created_at,
         users.id AS user_id,
-        users.username
+        users.username,
+        users.avatar
       FROM comments
       JOIN users ON users.id = comments.user_id
       WHERE comments.post_id = $1
@@ -45,9 +46,9 @@ export const addComment = async (req, res) => {
   }
 
   try {
-    
-const result = await pool.query(
-  `
+
+    const result = await pool.query(
+      `
   WITH inserted_comment AS (
     INSERT INTO comments (post_id, user_id, text)
     VALUES ($1, $2, $3)
@@ -60,8 +61,8 @@ const result = await pool.query(
   FROM inserted_comment
   JOIN users ON users.id = inserted_comment.user_id;
   `,
-  [postId, userId, text]
-);
+      [postId, userId, text]
+    );
 
 
     res.status(201).json(result.rows[0]);

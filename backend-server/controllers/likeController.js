@@ -1,6 +1,32 @@
 import { pool } from "../db/index.js";
 
 /**
+ * GET LIKERS FOR POST
+ * GET /api/likes/:postId
+ */
+export const getLikers = async (req, res) => {
+  const postId = req.params.postId;
+
+  try {
+    const result = await pool.query(
+      `
+      SELECT users.id, users.username, users.avatar, users.role
+      FROM likes
+      JOIN users ON users.id = likes.user_id
+      WHERE likes.post_id = $1
+      ORDER BY likes.created_at DESC
+      `,
+      [postId]
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+/**
  * LIKE POST
  * POST /api/likes/:postId
  */
