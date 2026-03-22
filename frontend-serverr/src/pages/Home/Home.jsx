@@ -6,7 +6,6 @@ export const Home = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-
     const fetchFeed = useCallback(async () => {
         try {
             const response = await api.get('/posts/feed');

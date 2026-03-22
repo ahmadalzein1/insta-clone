@@ -3,6 +3,7 @@ import { useAuth } from '../hooks/useAuth';
 
 export const ProtectedRoute = () => {
     const { user } = useAuth();
+ 
 
     // If no user, kick them to the login page!
     if (!user) {
