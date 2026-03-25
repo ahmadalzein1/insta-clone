@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth'; // We need this to log the user in!
 import api from '../../api';
 import styles from './Login.module.css';
@@ -12,6 +12,8 @@ export const Login = () => {
 
     const { login } = useAuth(); // Grab the login function from your Context!
     const navigate = useNavigate();
+    const location = useLocation();
+    const successMessage = location.state?.message;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -43,6 +45,7 @@ export const Login = () => {
             <div className={styles.formBox}>
                 <h1 className={styles.logo}>InstaClone</h1>
 
+                {successMessage && <div className={styles.success}>{successMessage}</div>}
                 {error && <div className={styles.error}>{error}</div>}
 
                 <form onSubmit={handleSubmit} className={styles.form}>

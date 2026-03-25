@@ -1,0 +1,105 @@
+.card {
+    background: var(--nav-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    margin-bottom: var(--space-lg);
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+    max-width: 470px;
+    width: 100%;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-hover);
+}
+
+/* ── Header ── */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px var(--space-md);
+}
+
+.userLink {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    border: 2px solid transparent;
+    background: linear-gradient(var(--nav-bg), var(--nav-bg)) padding-box,
+        linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888) border-box;
+}
+
+.avatarFallback {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: var(--text-sm);
+}
+
+.username {
+    font-weight: 600;
+    font-size: var(--text-sm);
+}
+
+.timestamp {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+}
+
+/* ── Image ── */
+.imageWrapper {
+    width: 100%;
+    background: #000;
+    overflow: hidden;
+}
+
+.postImage {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    max-height: 600px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.postImage:active {
+    opacity: 0.9;
+}
+
+
+
+/* ── Caption ── */
+.caption {
+    padding: 6px var(--space-md) 0;
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.captionUser {
+    font-weight: 700;
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.captionUser:hover {
+    text-decoration: underline;
+}

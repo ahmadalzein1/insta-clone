@@ -18,7 +18,7 @@ export const createPost = async (req, res) => {
       `INSERT INTO posts (user_id, image, caption)
        VALUES ($1, $2, $3)
        RETURNING *`,
-      [userId,"uploads/"+image, caption]
+      [userId, "uploads/" + image, caption]
     );
 
     res.status(201).json(result.rows[0]);

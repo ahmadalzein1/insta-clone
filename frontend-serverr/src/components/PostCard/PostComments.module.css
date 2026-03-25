@@ -1,0 +1,133 @@
+.commentsContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── View comments link ── */
+.viewComments {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    padding: 4px var(--space-md) 0;
+    display: block;
+    text-align: left;
+    transition: color 0.2s;
+}
+
+.viewComments:hover {
+    color: var(--text-primary);
+}
+
+/* ── Comments List ── */
+.commentsList {
+    padding: 4px var(--space-md) 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.commentItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: var(--text-sm);
+}
+
+.optimistic {
+    opacity: 0.6;
+}
+
+.commentAvatar {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.commentAvatarFallback {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 10px;
+    flex-shrink: 0;
+}
+
+.commentUsername {
+    font-weight: 700;
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.commentUsername:hover {
+    text-decoration: underline;
+}
+
+.commentText {
+    color: var(--text-primary);
+}
+
+.loadingText {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+}
+
+.commentError {
+    font-size: var(--text-xs);
+    color: var(--danger);
+}
+
+/* ── Comment Form ── */
+.commentForm {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px var(--space-md) 12px;
+    border-top: 1px solid var(--border-color);
+    margin-top: 10px;
+}
+
+.commentInput {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    font-family: var(--font-family);
+}
+
+.commentInput::placeholder {
+    color: var(--text-secondary);
+}
+
+.commentSubmit {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--primary-button);
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    border-radius: var(--radius-sm);
+    transition: opacity 0.2s, transform 0.15s;
+}
+
+.commentSubmit:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.commentSubmit:not(:disabled):hover {
+    transform: scale(1.15);
+}

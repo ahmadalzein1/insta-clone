@@ -50,7 +50,17 @@ export const getUserProfile = async (req, res) => {
 
     const postsRes = await pool.query(
       `
-      SELECT *
+      SELECT posts.*,
+        (
+          SELECT COUNT(*)
+          FROM likes
+          WHERE likes.post_id = posts.id
+        ) AS likes_count,
+        (
+          SELECT COUNT(*)
+          FROM comments
+          WHERE comments.post_id = posts.id
+        ) AS comments_count
       FROM posts
       WHERE user_id = $1
       ORDER BY created_at DESC

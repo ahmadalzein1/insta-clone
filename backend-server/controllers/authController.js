@@ -9,7 +9,7 @@ const generateToken = (user) => {
     {
       id: user.id,
       username: user.username,
-        avatar: user.avatar,
+      avatar: user.avatar,
       role: user.role,
     },
     process.env.JWT_SECRET,
@@ -51,38 +51,38 @@ export const register = async (req, res) => {
 
 
 
-// 1️⃣ Generate token
-const rawToken = crypto.randomBytes(32).toString("hex");//unique
-const tokenHash = crypto
-  .createHash("sha256")
-  .update(rawToken)
-  .digest("hex");
+    // 1️⃣ Generate token
+    const rawToken = crypto.randomBytes(32).toString("hex");//unique
+    const tokenHash = crypto
+      .createHash("sha256")
+      .update(rawToken)
+      .digest("hex");
 
-// 2️⃣ Save token
-await pool.query(
-  `
+    // 2️⃣ Save token
+    await pool.query(
+      `
   INSERT INTO email_verification_tokens (user_id, token_hash, expires_at)
   VALUES ($1, $2, NOW() + INTERVAL '24 hours')
   `,
-  [user.id, tokenHash]
-);
+      [user.id, tokenHash]
+    );
 
-// 3️⃣ Send email
-const verifyUrl = `${process.env.FRONTEND_URL}verify-email?token=${rawToken}`;
+    // 3️⃣ Send email
+    const verifyUrl = `${process.env.FRONTEND_URL}verify-email?token=${rawToken}`;
 
-await sendEmail({
-  to: user.email,
-  subject: "Verify your email",
-  html: `
+    await sendEmail({
+      to: user.email,
+      subject: "Verify your email",
+      html: `
     <h2>Verify your email</h2>
     <p>Click the link below to verify your account:</p>
     <a href="${verifyUrl}">${verifyUrl}</a>
   `,
-});
+    });
 
     //const token = generateToken(user);
 
-    res.status(201).json({ message:'verify your account via a link sent to your email' });
+    res.status(201).json({ message: 'verify your account via a link sent to your email' });
   } catch (err) {
     console.error("Register error:", err);
     res.status(500).json({ message: "Server error" });
@@ -114,10 +114,10 @@ export const login = async (req, res) => {
     }
 
     if (!user.is_verified) {
-  return res
-    .status(403)
-    .json({ message: "Please verify your email first" });
-}
+      return res
+        .status(403)
+        .json({ message: "Please verify your email first" });
+    }
 
 
     const isMatch = await bcrypt.compare(password, user.password);
