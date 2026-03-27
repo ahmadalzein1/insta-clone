@@ -10,7 +10,7 @@ export const SocketProvider = ({ children }) => {
     useEffect(() => {
         if (!token) {
             if (socket) {
-                socket.disconnect();
+                //socket.disconnect();
                 setSocket(null);
             }
             return;
