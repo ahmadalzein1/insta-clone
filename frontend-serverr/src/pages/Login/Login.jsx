@@ -31,7 +31,7 @@ export const Login = () => {
             login(response.data.token);
 
             // Send them to the Feed!
-            navigate('/');
+            // navigate('/');
 
         } catch (err) {
             setError(err.response?.data?.message || 'Invalid credentials');
