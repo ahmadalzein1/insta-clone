@@ -2,16 +2,24 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
 import { useTheme } from '../../../hooks/useTheme';
-import { Sun, Moon, LogOut, Home, PlusSquare } from 'lucide-react';
+import { useChat } from '../../../hooks/useChat';
+import { Sun, Moon, LogOut, Home, PlusSquare, MessageSquare } from 'lucide-react';
 import { SearchBar } from '../../SearchBar/SearchBar';
 import { CreatePost } from '../../CreatePost/CreatePost';
 import styles from './Navbar.module.css';
+import { useEffect } from 'react';
 
 const BACKEND = 'http://localhost:5000';
 
 export const Navbar = () => {
+    const { unreadCount, date } = useChat();
+    console.log("navBar: ", date);
+    useEffect(() => {
+        console.log("navBar useEffect");
+    });
     const { user, logout } = useAuth();
     const { theme, toggleTheme } = useTheme();
+
     const [showCreate, setShowCreate] = useState(false);
 
     const avatarUrl = user?.avatar
@@ -36,6 +44,14 @@ export const Navbar = () => {
                             <div className={styles.navLinks}>
                                 <Link to="/" className={styles.iconButton} aria-label="Home">
                                     <Home size={22} />
+                                </Link>
+                                <Link to="/direct" className={`${styles.iconButton} ${styles.msgLink}`} aria-label="Messages">
+                                    <MessageSquare size={22} />
+                                    {unreadCount > 0 && (
+                                        <span className={styles.badge}>
+                                            {unreadCount > 9 ? '9+' : unreadCount}
+                                        </span>
+                                    )}
                                 </Link>
                                 <button
                                     className={styles.iconButton}

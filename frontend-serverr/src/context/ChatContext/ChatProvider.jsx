@@ -13,10 +13,11 @@ export const ChatProvider = ({ children }) => {
 
     // 1. Fetch conversations from the backend
     const fetchConversations = useCallback(async () => {
+        console.log("fetchConversations")
         // Only fetch if a user is logged in
         if (!user) {
             setConversations([]);
-            setUnreadCount(0);
+            setUnreadCount(3);
             return;
         }
         console.log("start")
@@ -63,7 +64,8 @@ export const ChatProvider = ({ children }) => {
 
     // Helper to clear unread count (e.g., when they open the messages page)
     const clearUnreadCount = () => setUnreadCount(0);
-    console.log(Date.now() + " :ChatProvider socket:" + socket + " conversations:" + conversations + " unreadCount:" + unreadCount + " loadingConversations:" + loadingConversations)
+    const date = Date.now();
+    console.log(date + " :ChatProvider socket:" + socket + " conversations:" + conversations + " unreadCount:" + unreadCount + " loadingConversations:" + loadingConversations)
 
     return (
         <ChatContext.Provider
@@ -72,7 +74,8 @@ export const ChatProvider = ({ children }) => {
                 loadingConversations,
                 fetchConversations,
                 unreadCount,
-                clearUnreadCount
+                clearUnreadCount,
+                date
             }}
         >
             {children}

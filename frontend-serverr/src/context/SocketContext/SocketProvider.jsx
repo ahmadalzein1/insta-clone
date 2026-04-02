@@ -8,6 +8,7 @@ export const SocketProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
 
     useEffect(() => {
+        console.log("SocketProvider useEffect");
         if (!token) {
             if (socket) {
                 //socket.disconnect();

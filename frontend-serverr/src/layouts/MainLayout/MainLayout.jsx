@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 import { Navbar } from '../../components/ui/Navbar/Navbar';
 
 export const MainLayout = () => {
+    console.log(" :MainLayout")
     return (
         <div className="layout-container">
             {/* The Navbar will sit at the top of every page */}
