@@ -41,6 +41,7 @@ export const ChatProvider = ({ children }) => {
 
     // 3. Listen for incoming message notifications via WebSocket
     useEffect(() => {
+        console.log("above ")
         if (!socket) return;
 
         const handleNewNotification = (notification) => {
