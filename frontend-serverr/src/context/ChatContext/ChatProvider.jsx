@@ -17,7 +17,7 @@ export const ChatProvider = ({ children }) => {
         // Only fetch if a user is logged in
         if (!user) {
             setConversations([]);
-            setUnreadCount(3);
+            setUnreadCount(0);
             return;
         }
         console.log("start")
